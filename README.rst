@@ -2,11 +2,24 @@
 Site Checker
 =====
 
-Site checker is a simple Django app for checking the status of remote web sites.
+The Site Checker is a simple Django app for checking the status of remote web sites.
+Key things to note:
 
-Detailed documentation is in the "docs" directory.
+- app was created as 'reusable app' in django terms (see Introduction below)
+- structure of the code was enhanced to some extent ie: default files such as views.py, models.py were 'transformed'
+  to packages so when more code appear it would be for example easier to maintain/develop etc.
+- some async were introduced (including tests)
 
-Quick start
+Introduction
+-----------
+This app is intended to be build as python package
+ie: python setup.py sdist - run from inside the folder where setup.py is present)
+
+- when the app is build it can be installed via pip install and used in parent project
+- in terms of django vocabulary etc. this code is a django app which is some kind of submodule something bigger
+and this 'bigger' is django project
+
+How to add the site_checker app to the django project
 -----------
 
 1. Add "site_checker" to your INSTALLED_APPS setting like this::
