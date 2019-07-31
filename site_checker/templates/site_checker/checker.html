@@ -1,0 +1,14 @@
+<h1>Site checker</h1>
+<form action="{% url 'site_checker:check' %}" method="post">
+{% csrf_token %}
+    <label>Site address to be checked:</label>
+    <input type="text" class="form-control" name="site_address" value="https://facebook.pl"placeholder="https://facebook.pl">
+    <input type="submit" value="Check"><br/>
+    <br/>
+    {% if message %}
+        {{message}}
+        {% if time_of_the_message %}
+            at {{time_of_the_message}}
+        {% endif %}
+    {% endif %}
+</form>
