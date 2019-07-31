@@ -37,3 +37,6 @@ How to add the site_checker app to the django project
 
 4. Start the development server and visit http://127.0.0.1:8000/site-checker/
    to see a view allowing to make a check request to a remote site
+
+5. To execute tests invoke the following command from the directory of the main project:
+   python manage.py test site_checker
