@@ -9,10 +9,10 @@ Key things to note:
 - structure of the code was enhanced to some extent ie: default files such as views.py, models.py were 'transformed'
   to packages so when more code appear it would be for example easier to maintain/develop etc.
 - some async were introduced (including tests)
-  - for details please see the comments in views\site_checkers.py (check() function).
+ - for details please see the comments in views\site_checkers.py (check() function).
     I mentioned there also about other ways of achieving the same result
     but as I was developed similar things in the past so I intentionally decided to try the approach completely unknown to me (Django with async/await/aiohttp)
-  - In JEE/Spring world doing the same things in views are discouraged and very dangerous
+ - In JEE/Spring world doing the same things in views are discouraged and very dangerous
     so I was really curious that in Python/Django world things are developed this way. So I had just to try and see :)
 - it was created using Python 3.6
 - database which was used is sqlite
