@@ -43,7 +43,7 @@ How to add the site_checker app to the django project
 -- TESTS
 1. To execute tests invoke the following command from the directory of the main project:
    python manage.py test site_checker
-2. Some tests are async ones.
+2. Some tests are async ones
    - It's very important to use the correct version of asynctest library ( I have asynctest==0.13.0)
      - as stated in 'https://github.com/Martiusweb/asynctest/issues/29' versions below 0.11.1 don't support
        two very important methods (__aentry__, __aexit__) which causes problems
