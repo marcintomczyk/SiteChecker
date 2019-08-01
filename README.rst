@@ -9,7 +9,16 @@ Key things to note:
 - structure of the code was enhanced to some extent ie: default files such as views.py, models.py were 'transformed'
   to packages so when more code appear it would be for example easier to maintain/develop etc.
 - some async were introduced (including tests)
+  - for details please see the comments in views\site_checkers.py (check() function).
+    I mentioned there also about other ways of achieving the same result
+    but as I was developed similar things in the past so I intentionally decided to try the approach completely unknown to me (Django with async/await/aiohttp)
 - it was created using Python 3.6
+- database which was used is sqlite
+  - just for simplicity but please take into account that transactions in sqlite are serializable by default
+    - it doesn't matter here because we use only inserts (very important for historical purposes for example)
+      but in case we use also updates (another approach mentioned in the comments in views\site_checkers.py)
+      it changes a lot when switching to another database (using select_for_update might be necessary, or f())
+      as real, production databases don't use 'serializable' by default
 
 Introduction
 -----------

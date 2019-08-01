@@ -11,6 +11,7 @@ from django.utils import timezone
 from site_checker.models import Site
 
 
+# yes, I know I could use Class-based views :) but haven't used them intentionally
 def index(request):
     return render(request, 'site_checker/checker.html', {})
 
@@ -27,6 +28,14 @@ async def check_site_status(url):
     # so without configuring it log.debug's statements would be not visible
     # this is why for now I am using print for 'marking' starting
     #print('Starting {}'.format(url))
+
+    # TODO: give the ability to configure turning on/off ssl verification
+    # in real projects this setting could be set up on 'url' level (some kind of configuration)
+    # or we could check if the domains are similar ie: in case of facebook it is not a problem
+    # when we got certificate from facebook.com where expecting facebook.pl
+    # other sites might be more problematic and unsafe however fetching only via head is much safer
+    # than via get (but of course the text we get is not dangerous itself. The problem lies
+    # in where and how this text would be used)
     connector = aiohttp.TCPConnector(verify_ssl=False)
     try:
         async with aiohttp.ClientSession(connector=connector) as session:
