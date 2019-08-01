@@ -45,9 +45,8 @@ How to add the site_checker app to the django project
    python manage.py test site_checker
 2. Some tests are async ones.
    - It's very important to use the correct version of asynctest library ( I have asynctest==0.13.0)
-     - as stated in 'https://github.com/Martiusweb/asynctest/issues/29' versions below 0.11.1 doesn't support
-       two very important methods (__aentry__, __aexit__) causing problems
-   - there are other tools for async testing ie: django-async-test
-       but the current version uses asynctest in version 0.7, so in case of installing/having it it might be worth
+     - as stated in 'https://github.com/Martiusweb/asynctest/issues/29' versions below 0.11.1 don't support
+       two very important methods (__aentry__, __aexit__) which causes problems
+   - there are other tools for async testing ie: django-async-test but the current version uses asynctest in version 0.7, so in case of installing/having it it might be worth
        verifying the asynctest library version
 
