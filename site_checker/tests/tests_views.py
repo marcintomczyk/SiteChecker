@@ -1,14 +1,10 @@
-from django.test import RequestFactory, TestCase
+from django.test import TestCase
 from django.urls import reverse
 
 SITE_CHECKER_VIEW_NAME = 'site_checker:check'
 
 
 class SimpleCheckMethodTest(TestCase):
-
-    # for more complex tests
-    #def setUp(self):
-    #    self.request_factory = RequestFactory()
 
     def test_is_user_properly_informed_get_request_not_supported(self):
         response = self.client.get(reverse(SITE_CHECKER_VIEW_NAME))
