@@ -13,6 +13,7 @@ from site_checker.models import Site
 
 SITE_CHECKER_MAIN_URL = 'site_checker/checker.html'
 
+
 # yes, I know I could use Class-based views :) but haven't used them intentionally
 def index(request):
     return render(request, SITE_CHECKER_MAIN_URL, {})
@@ -65,9 +66,9 @@ def create_site_details(original_site_address, response):
 
 def check(request):
 
-    if request.method == 'GET':
+    if request.method != 'POST':
         return render(request, SITE_CHECKER_MAIN_URL, {
-            'message': 'Get request currently not supported',
+            'message': 'This kind of request ie: {} currently not supported'.format(request.method),
         })
 
     site_address = request.POST['site_address']
