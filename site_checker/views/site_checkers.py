@@ -11,10 +11,11 @@ from django.utils import timezone
 
 from site_checker.models import Site
 
+SITE_CHECKER_MAIN_URL = 'site_checker/checker.html'
 
 # yes, I know I could use Class-based views :) but haven't used them intentionally
 def index(request):
-    return render(request, 'site_checker/checker.html', {})
+    return render(request, SITE_CHECKER_MAIN_URL, {})
 
 
 def start_loop(loop, original_site_address):
@@ -63,12 +64,18 @@ def create_site_details(original_site_address, response):
 
 
 def check(request):
+
+    if request.method == 'GET':
+        return render(request, SITE_CHECKER_MAIN_URL, {
+            'message': 'Get request currently not supported',
+        })
+
     site_address = request.POST['site_address']
     try:
         validate = URLValidator()
         validate(site_address)
     except ValidationError:
-        return render(request, 'site_checker/checker.html', {
+        return render(request, SITE_CHECKER_MAIN_URL, {
             'message': 'Invalid url',
         })
 
