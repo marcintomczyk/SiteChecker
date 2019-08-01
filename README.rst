@@ -12,6 +12,8 @@ Key things to note:
   - for details please see the comments in views\site_checkers.py (check() function).
     I mentioned there also about other ways of achieving the same result
     but as I was developed similar things in the past so I intentionally decided to try the approach completely unknown to me (Django with async/await/aiohttp)
+  - In JEE/Spring world doing the same things in views are discouraged and very dangerous
+    so I was really curious that in Python/Django world things are developed this way. So I had just to try and see :)
 - it was created using Python 3.6
 - database which was used is sqlite
   - just for simplicity but please take into account that transactions in sqlite are serializable by default
