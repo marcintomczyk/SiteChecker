@@ -9,6 +9,7 @@ Key things to note:
 - structure of the code was enhanced to some extent ie: default files such as views.py, models.py were 'transformed'
   to packages so when more code appear it would be for example easier to maintain/develop etc.
 - some async were introduced (including tests)
+- it was created using Python 3.6
 
 Introduction
 -----------
@@ -38,5 +39,15 @@ How to add the site_checker app to the django project
 4. Start the development server and visit http://127.0.0.1:8000/site-checker/
    to see a view allowing to make a check request to a remote site
 
-5. To execute tests invoke the following command from the directory of the main project:
+
+-- TESTS
+1. To execute tests invoke the following command from the directory of the main project:
    python manage.py test site_checker
+2. Some tests are async ones.
+   - It's very important to use the correct version of asynctest library ( I have asynctest==0.13.0)
+     - as stated in 'https://github.com/Martiusweb/asynctest/issues/29' versions below 0.11.1 doesn't support
+       two very important methods (__aentry__, __aexit__) causing problems
+   - there are other tools for async testing ie: django-async-test
+       but the current version uses asynctest in version 0.7, so in case of installing/having it it might be worth
+       verifying the asynctest library version
+

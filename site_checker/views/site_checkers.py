@@ -69,6 +69,17 @@ def check(request):
     # it can be done also in other ways ie: with Celery, Django Channels
     # but as I didn't know async/await I just wanted to dive a bit into it
     # and see how it behaves with Django (which is synchronous by nature)
+
+    # NOTE !!!!!!!
+    # in a real app I would go rather in a bit different solution but it wouldn't be a simple app then:
+    # clicking a button on the form would create a new site in db with initial data only (ie: in simplest form only url)
+    # I would use another component of the system ie: could be celery for example
+    # or even a background process running constantly and fetching new site entries in db
+    # having the site entry the process would make the real check, saving the result in the db (record's update)
+    # this way we could separate django view and check process so we could also eliminate
+    # things like creating a separate thread here
+    # BUT as I wrote a bit above I just wanted to do/learn something else/new
+    # ie: how Django cooperates with async/await (further extensions could be Django channels)
     t = Thread(target=start_loop, args=(loop, site_address))
     t.start()
 
