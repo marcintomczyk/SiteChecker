@@ -1,8 +1,5 @@
-import datetime
-
 from django.test import TestCase
-from django.utils import timezone
-
+from datetime import datetime
 from site_checker.models import Site
 
 
@@ -16,6 +13,6 @@ class SiteTest(TestCase):
                                    check_date=check_date)
 
     def test_site_creation(self):
-        site = self.create_site('aaaa', 'bbbb', 200, timezone.now())
+        site = self.create_site('aaaa', 'bbbb', 200, datetime.timestamp(datetime.now()))
         self.assertTrue(isinstance(site, Site))
         self.assertEqual(site.original_address, 'aaaa')

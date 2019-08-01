@@ -1,4 +1,5 @@
 import asyncio
+from datetime import datetime
 from threading import Thread
 
 import aiohttp
@@ -51,13 +52,13 @@ def create_site_details(original_site_address, response):
         site = Site.objects.create(original_address=original_site_address,
                                    final_address=response.url,
                                    status_code=response.status,
-                                   check_date=timezone.now())
+                                   check_date=datetime.timestamp(datetime.now()))
     # means we got an exception as a response
     else:
         site = Site.objects.create(original_address=original_site_address,
                                    status_code=0,
-                                   check_date=timezone.now(),
-                                   error_message=response)
+                                   error_message=response,
+                                   check_date=datetime.timestamp(datetime.now()))
     return site
 
 

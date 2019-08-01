@@ -7,7 +7,8 @@ class Site(models.Model):
     original_address = models.URLField(max_length=200)
     final_address = models.URLField(max_length=200, blank=True)
     status_code = models.PositiveSmallIntegerField()
-    check_date = models.DateTimeField('check date')
+    # yes, I've found django-unixtimestampfield but didn't want to install additional dependency for something so simple
+    check_date = models.IntegerField()
     error_message = models.TextField(max_length=400, blank=True)
 
     def __str__(self):
