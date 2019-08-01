@@ -3,7 +3,7 @@ from django.db import models
 
 class Site(models.Model):
     # for the current project it might seem unnecessary to have urlfield as we have validation on the view
-    # but for bigger projects there might be other 'checkers' without validation on view layer
+    # but for bigger projects there might be other 'site_checkers' without validation on a view layer
     original_address = models.URLField(max_length=200)
     final_address = models.URLField(max_length=200, blank=True)
     status_code = models.PositiveSmallIntegerField()
