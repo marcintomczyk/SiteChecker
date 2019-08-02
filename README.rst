@@ -16,7 +16,7 @@ Key things to note:
     so I was really, really curious that in Python/Django world things are developed this way. So I had just to try and see :)
     it might be however interesting option in some cases, but in real app I would rather go in a more traditional approach
     (I mean where components are more loosely coupled such as when using celery or even django-background-tasks library.
-    in these scenarios submitting a task is an operation not coupled at all to the process of real url's checking
+    In these scenarios submitting a task is an operation not coupled at all to the process of real url's checking
     and what's more we can also have fetching results from the db (status, timestamp etc.) in a separate way too
     Going further we could still use aiohttp/async but only with the part responsible for url's verification and
     as it would have been a background task it would not block Django views etc.)
