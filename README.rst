@@ -21,6 +21,9 @@ Key things to note:
     Going further we could still use aiohttp/async but only with the part responsible for url's verification and
     as it would have been a background task it would not block Django views etc.)
 - it was created using Python 3.6
+ - developed and tested within virtualenv. 2 additional libraries are necessary:
+  - pip install django
+  - pip install requests
 - database which was used is sqlite
  - just for simplicity but please take into account that transactions in sqlite are serializable by default
   - it doesn't matter here because we use only inserts (very important for historical purposes for example)
