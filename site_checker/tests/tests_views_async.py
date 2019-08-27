@@ -1,11 +1,10 @@
-from asynctest import MagicMock, patch
+from asynctest import MagicMock, patch, mock, asyncio, Mock, asynctest
 from aiohttp import web, ClientConnectorError
 from aiohttp.test_utils import AioHTTPTestCase, unittest_run_loop
 from yarl import URL
 
-from site_checker.tests.aiohttp_utils import create_base_response
-from site_checker.views import check_site_status
-
+from site_checker.tests.aiohttp_utils import create_base_response, create_base_ws_response
+from site_checker.views import check_site_status, send_ws_message
 
 FB_ORIGINAL_URL = URL('https://facebook.pl/')
 
@@ -40,39 +39,42 @@ class TestAsyncSiteCheckerFunction(AioHTTPTestCase):
         return web.Application()
 
     @unittest_run_loop
+    @asynctest.patch('aiohttp.ClientSession.ws_connect')
     @patch('aiohttp.ClientSession.head')
-    async def test_is_correct_response_returned_after_site_checking_with_correct_url_and_redirect(self, mock_head):
+    async def test_is_correct_response_returned_after_site_checking_with_correct_url_and_redirect(self, mock_head,
+                                                                                             mock_ws_message):
 
         # doesn't work - workaround using 'MagicMock.__await' is needed
         # mock_head.return_value.__aenter__.return_value.head = create_correct_response_for_fb_with_url_after_redirect()
         MagicMock.__await__ = lambda x: async_magic(create_correct_response_for_fb_with_url_after_redirect()).__await__()
+        mock_ws_message.return_value.__aexit__.return_value = create_base_ws_response()
         site_response = await check_site_status(FB_ORIGINAL_URL)
 
         self.assertIsNotNone(site_response)
         self.assertEqual(site_response.status, 200)
         self.assertEqual(site_response.url, FB_FINAL_URL)
 
-
-
     @unittest_run_loop
+    @asynctest.patch('aiohttp.ClientSession.ws_connect')
     @patch('aiohttp.ClientSession.head')
-    async def test_is_correct_response_produced_after_site_checking_with_correct_url_and_no_redirect(self, mock_head):
+    async def test_is_correct_response_produced_after_site_checking_with_correct_url_and_no_redirect(self, mock_head,
+                                                                                                     mock_ws_message):
         MagicMock.__await__ = lambda x: async_magic(create_correct_response_for_onet_no_redirect()).__await__()
-        site_response = await check_site_status(ONET_ORIGINAL_URL)
+        mock_ws_message.return_value.__aexit__.return_value = create_base_ws_response()
 
+        site_response = await check_site_status(ONET_ORIGINAL_URL)
         self.assertIsNotNone(site_response)
         self.assertEqual(site_response.status, 200)
         self.assertEqual(site_response.url, ONET_ORIGINAL_URL)
 
-
     @unittest_run_loop
-    async def test_is_exception_produced_after_site_checking_with_incorrect_url_or_no_internet(self):
-
+    @asynctest.patch('aiohttp.ClientSession.ws_connect')
+    async def test_is_exception_produced_after_site_checking_with_incorrect_url_or_no_internet(self, mock_ws_message):
+        mock_ws_message.return_value.__aexit__.return_value = create_base_ws_response()
         site_response = await check_site_status('https://aaa.bbb.ccc')
 
         self.assertIsNotNone(site_response)
         self.assertIsInstance(site_response, ClientConnectorError)
-
 
 
 

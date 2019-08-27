@@ -29,26 +29,15 @@ def start_loop(loop, original_site_address):
     site_response = loop.run_until_complete(check_site_status(original_site_address))
 
     #TODO: introduce chaining
-    loop.run_until_complete(send_status_info(original_site_address, site_response))
+    loop.run_until_complete(send_ws_message(prepare_message(original_site_address, "checking finished, status: "
+                                                            + str(site_response.status))))
 
     create_site_details(original_site_address, site_response)
 
 
-async def send_status_info(url, response):
-    async with aiohttp.ClientSession() as ws_session:
-        async with ws_session.ws_connect(SITE_CHECKER_CHANNEL_MAIN_ROOM) as ws:
-            await ws.send_str(prepare_message(url, "checking finished, status: " + str(response.status)))
-            ws.close()
-        ws_session.close()
-
 async def check_site_status(url):
-    print('sending message to ws - 1')
 
-    async with aiohttp.ClientSession() as ws_session:
-        async with ws_session.ws_connect(SITE_CHECKER_CHANNEL_MAIN_ROOM) as ws:
-            await ws.send_str(prepare_message(url, "preparing for checking site"))
-            ws.close()
-        ws_session.close()
+    await send_ws_message(prepare_message(url, "preparing for checking site"))
 
     # TODO: introduce logging
     # BUT it requires having correct settings in the main project
@@ -65,11 +54,7 @@ async def check_site_status(url):
     # in where and how this text would be used)
     connector = aiohttp.TCPConnector(verify_ssl=False)
     try:
-        async with aiohttp.ClientSession() as ws_session:
-            async with ws_session.ws_connect(SITE_CHECKER_CHANNEL_MAIN_ROOM) as ws:
-                await ws.send_str(prepare_message(url, "checking site started"))
-                ws.close()
-            ws_session.close()
+        await send_ws_message(prepare_message(url, "checking site started"))
 
         async with aiohttp.ClientSession(connector=connector) as session:
             return await session.head(url, allow_redirects=True)
@@ -77,6 +62,14 @@ async def check_site_status(url):
     # TODO: Maybe use RequestException ?
     except ClientConnectionError as cce:
         return cce
+
+
+async def send_ws_message(message):
+    async with aiohttp.ClientSession() as ws_session:
+        async with ws_session.ws_connect(SITE_CHECKER_CHANNEL_MAIN_ROOM) as ws:
+            await ws.send_str(message)
+            ws.close()
+        await ws_session.close()
 
 
 def create_site_details(original_site_address, response):
